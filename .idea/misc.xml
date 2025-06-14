@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+    <execution>
+      <phar pharPath="C:\ProgramData\ComposerSetup\bin\composer.phar" interpreterId="5796517c-9624-428d-a2a0-d7eb2f70e37b" />
+    </execution>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="graalvm-21" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

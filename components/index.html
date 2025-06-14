@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Alpine js courses</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.2/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="app.js"></script>
+    <style type="text/tailwindcss">
+        @theme {
+            --color-clifford: #da373d;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+<!-- Dropdown -->
+<div x-data="{open: false}">
+    <button
+            @click="open = !open"
+            class="inline-flex items-center py-2 px-6 bg-purple-600 hover:bg-opacity-95 text-white rounded-md shadow cursor-pointer">
+        Toggle
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+             :class="{ 'rotate-90': open }" x-transition
+             class="h-4 w-4 ml-2 transition-all duration-200 ease-in-out">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+        </svg>
+
+
+    </button>
+    <ul class="bg-white w-[160px] shadow-md py-1"
+        x-show="open" @click.outside="open = false" x-transition>
+        <li><a class="flex items-center py-1 px-2 hover:bg-gray-200" href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="size-4 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+            </svg>
+            Open</a></li>
+        <li><a class="flex items-center py-1 px-2 hover:bg-gray-200" href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="size-4 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
+            </svg>
+            Edit</a></li>
+        <li><a class="flex items-center py-1 px-2 hover:bg-gray-200" href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="size-4 mr-2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+            </svg>
+            Delete</a></li>
+    </ul>
+</div>
+<!-- Modal -->
+<div class="mt-5"
+     x-data="{
+     open: false,
+     accept () {
+        console.log('Accepted');
+        this.open = false;
+     },
+    }
+">
+    <button class="inline-flex items-center py-2 px-6 bg-purple-600 hover:bg-opacity-95 text-white rounded-md shadow"
+            @click="open = !open"
+    >Toggle Modal
+    </button>
+    <template x-teleport="body">
+        <!--    Backdrop-->
+        <div x-show="open"
+             class="fixed flex justify-center items-center left-0 top-0 bottom-0 right-0 bg-black/50 z-10">
+            <!--        Dialog-->
+            <div @click.outside="open = false"
+                 x-transition
+                 x-show="open"
+                 class="w-[90%] md:w-1/2 bg-white rounded-xl overflow-hidden">
+                <!--            Modal Header-->
+                <div class="flex items-center justify-between px-4 py-2 text-lg font-semibold bg-gray-100">
+                    <h2 class="">Modal Header</h2>
+                    <button @click="open = false" class="cursor-pointer hover:bg-gray-200 rounded-full p-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+                <!--            Modal Body-->
+                <div class="p-4">
+                    Modal Body
+                </div>
+                <!--            Modal Footer-->
+                <div class="flex justify-end gap-2 px-4 py-2 text-lg font-semibold bg-gray-100">
+                    <button class="inline-flex items-center py-1 px-3 bg-emerald-500 hover:bg-opacity-90 text-white rounded-md shadow cursor-pointer"
+                            @click="accept"
+                    >Accept
+                    </button>
+                    <button
+                            @click="open = false"
+                            class="inline-flex items-center py-1 px-3 bg-gray-400 text-gray-800 hover:bg-opacity-90 rounded-md shadow cursor-pointer"
+                    >Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+</div>
+<!-- Tabs -->
+<div class="mt-5"
+     x-data="{
+        tabs:['Home','Users','Settings','Orders'],
+        activeTab: 'Home',
+<!--        init(){-->
+<!--           if (this.tabs.length > 0) this.activeTab = this.tabs[0];-->
+<!--           },-->
+        }"
+>
+    <div class="flex">
+        <template x-for="tab in tabs">
+            <div x-text="tab"
+                 @click="activeTab = tab"
+                 class="py-2 px-4 bg-white cursor-pointer border border-gray-100"
+                 :class="{'border-purple-500' : activeTab === tab,'text-blue-500' : activeTab === tab}"
+            >
+            </div>
+        </template>
+    </div>
+    <div
+            class="px-2 py-3 mt-1 bg-white border-gray-100" style="min-height: 100px">
+        <div x-show="activeTab === 'Home'">Home</div>
+        <div x-show="activeTab === 'Users'">User</div>
+        <div x-show="activeTab === 'Settings'">Settings</div>
+        <div x-show="activeTab === 'Orders'">Orders</div>
+    </div>
+</div>
+<!-- Carousel -->
+<div x-data="{
+        images: ['img/1.jpg', 'img/2.jpg', 'img/3.jpg', 'img/4.jpg', 'img/5.jpg'],
+        activeImage: null,
+        init() {
+            this.activeImage =this.images.length > 0 ? this.images[0] : null;
+        },
+        prev(){
+            let currentIndex = this.images.indexOf(this.activeImage);
+                if(currentIndex == 0)
+                    currentIndex = this.images.length;
+                this.activeImage = this.images[currentIndex - 1]
+        },
+        next(){
+            let currentIndex = this.images.indexOf(this.activeImage);
+            if(currentIndex == this.images.length - 1)
+            currentIndex = -1;
+            this.activeImage = this.images[currentIndex + 1]
+        },
+    }
+"
+     class="mt-5">
+    <div class="relative">
+        <template x-for="image in images">
+            <img x-show="activeImage === image" :src="activeImage" alt="">
+        </template>
+        <!--        Arrow-->
+        <button @click="prev()" class="absolute left-0 top-1/2 -translate-y-1/2 text-white border-2 border-white rounded-full p-2 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="size-10 mr-1">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
+            </svg>
+        </button>
+        <button @click="next()" class="absolute right-0 top-1/2 -translate-1/2 text-white border-2 border-white rounded-full p-2 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="size-10 ml-1">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+            </svg>
+        </button>
+    </div>
+    <div class="flex">
+        <div><img src="img/1.jpg" alt=""></div>
+        <div><img src="img/2.jpg" alt=""></div>
+        <div><img src="img/3.jpg" alt=""></div>
+        <div><img src="img/4.jpg" alt=""></div>
+        <div><img src="img/5.jpg" alt=""></div>
+    </div>
+</div>
+
+
+<!-- Accordion -->
+<!-- Notification -->
+<!-- Popover -->
+</body>
+</html>

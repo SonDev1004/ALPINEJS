@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:x-transition="http://www.w3.org/1999/xhtml"
+      xmlns:x-bind="http://www.w3.org/1999/xhtml"
+      xmlns:x-on="http://www.w3.org/1999/xhtml" xmlns:input="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpine.js Learning</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.2/dist/cdn.min.js"></script>
+    <script src="app.js"></script>
+</head>
+
+<body>
+<!-- x-data, x-text, x-html -->
+<!-- <dix x-data="{name: 'HoangSon1004', message: 'Hello <b>wolrd</b'}">
+    <p x-text="name"></p>
+    <p x-html="message"></p>
+</dix>
+<div
+x-data
+x-text="await (await fetch('https://jsonplaceholder.typicode.com/posts/1')).text()"></div> -->
+
+<!-- x-data with methods -->
+<!-- <div x-data="{
+   message: 'Click to change',
+   change() {
+       this.message = 'Changed message'
+   }
+}">
+   <span x-text="message" @click="change()"></span>
+</div> -->
+
+<!-- Re-useable Data -->
+<!-- <div x-data="{open: false}">
+   <button @click="open = !open">Open/Close</button>
+<div x-show="open" x-transition x-transition.duration.500ms>
+     <p>This is a toggleable content.</p>
+   Content ...
+</div> -->
+<!-- <div x-data="dropdown">
+   <button @click="toggle">Open/Close</button>
+<div x-show="open" x-transition>
+     <p>This is a toggleable content.</p>
+   Content ...
+</div>
+<div x-data="dropdown">
+   <button @click="toggle">Open/Close</button>
+<div x-show="open" x-transition>
+     <p>This is a toggleable content.</p>
+   Content ...
+</div> -->
+
+<!-- Data-Less components -->
+<!--     <div x-data @click="alert('Something!')">-->
+<!--        click me-->
+<!--     </div>-->
+
+<!-- data coming form "store" -->
+<!--    <div x-data x-text="$store.currentUser.posts"></div>-->
+
+<!-- x-init -->
+<!--    <div x-init="console.log('Init')">-->
+<!--    </div>-->
+<!--    <div x-data="{-->
+<!--        init(){-->
+<!--            console.log('I am initialized');-->
+<!--        }-->
+<!--    }"></div>-->
+<!--    <div x-data="{todo: {}}"-->
+<!--         x-init="todo = await (await fetch('https://jsonplaceholder.typicode.com/todos/1')).json()">-->
+<!--        <span x-text="todo.title"></span>-->
+<!--    </div>-->
+<!-- Scoping -->
+<!--    <div x-data="{-->
+<!--        name: 'Nguyen Van An',-->
+<!--        age: 30,-->
+<!--        gender: 'male'-->
+<!--    }">-->
+<!--        <div x-data="{name: 'Nguyen Thi Binh', age: 22}">-->
+<!--            <div x-data="{name: 'Le Hoang Chuong'}">-->
+<!--                <p x-text="name"></p>-->
+<!--                <p x-text="age"></p>-->
+<!--                <p x-text="gender"></p>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--    </div>-->
+<!-- Getter & Setter -->
+<!--    <div x-data="{-->
+<!--        open: false,-->
+<!--        get isOpen(){-->
+<!--            return this.open;-->
+<!--        },-->
+<!--        set isOpen(open){-->
+<!--        this.open = open;-->
+<!--        },-->
+<!--        toggle() {-->
+<!--            this.isOpen = !this.isOpen;-->
+<!--        }-->
+<!--}">-->
+<!--        <button @click="toggle">Open/Close</button>-->
+<!--        <div x-show="open" x-transition>-->
+<!--            Content ...-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!-- x-show & x-transittion-->
+<!--<div x-data="{-->
+<!--    open: false,-->
+<!--    toggle() {-->
+<!--        this.open = !this.open-->
+<!--        }-->
+<!--    }">-->
+<!--    <button @click="toggle()">Open/Close</button>-->
+<!--    <div-->
+<!--            x-show="open"-->
+<!--            x-transition:enter.duration.200ms-->
+<!--            x-transition:leave.duration.2000ms-->
+<!--    >-->
+<!--        Content...-->
+<!--    </div>-->
+<!--</div>-->
+
+<!-- x-if -->
+<!--<div-->
+<!--    x-data="{-->
+<!--        open: false,-->
+<!--        toggle() {-->
+<!--            this.open = ! this.open;-->
+<!--        },-->
+<!--    }"-->
+<!--&gt;-->
+<!--    <button @click="toggle()">Open/Close</button>-->
+<!--    <template x-if="open">-->
+<!--        <div>Content...</div>-->
+<!--    </template>-->
+<!--</div>-->
+
+<!--x-for-->
+<!--<div x-data="{-->
+<!--    posts: [-->
+<!--        {id: 1, title: 'Post 1'},-->
+<!--        {id: 2, title: 'Post 2'},-->
+<!--        {id: 3, title: 'Post 3'}-->
+<!--    ],-->
+<!--}">-->
+<!--    <template x-for="p in posts" :key="p.id">-->
+<!--        <h2 x-text="p.id + '-' + p.title"></h2>-->
+<!--    </template>-->
+<!--</div>-->
+
+<!--x-for in range-->
+<!--<div x-data>-->
+<!--    <template x-for="n in 5">-->
+<!--        <p x-text="n"></p>-->
+<!--    </template>-->
+<!--</div>-->
+
+<!--x-bind: class-->
+<!--x-bind có cú pháp rút gọn là (:)-->
+<!--<div x-data="{clicked: false}">-->
+<!--    <button class="bordered" x-bind:class="clicked ? 'yellow' : '' " @click="clicked = !clicked">Click me</button>-->
+<!--</div>-->
+<!--<div x-data="{clicked: false}">-->
+<!--    <button class="bordered" :class="{yellow : clicked }" @click="clicked = !clicked">Click me</button>-->
+<!--</div>-->
+<!--<style>-->
+<!--    .bordered {-->
+<!--        border: 2px solid gray;-->
+<!--    }-->
+<!--    .yellow {-->
+<!--        background-color: yellow;-->
+<!--    }-->
+<!--</style>-->
+
+<!--x-bind: style-->
+<!--<div x-data="{clicked: false}">-->
+<!--    <button style="color: green" :style="{backgroundColor: clicked ? 'red' : ''}" @click="clicked = !clicked">-->
+<!--        Click me-->
+<!--    </button>-->
+<!--</div>-->
+
+<!--x-bind id-->
+<!--<button-->
+<!--    x-data="{id: ''}"-->
+<!--    :id="id"-->
+<!--    @click="id = Math.round(Math.random() * 1000000)">-->
+<!--    Button-->
+<!--</button>-->
+
+<!--Challenge-->
+<!--<div x-data="{colors: ['red','green','blue','yellow','orange','purple','pink','brown','gray','black']}">-->
+<!--&lt;!&ndash;    Iterate over colors and display 40x40px boxes with giver colors&ndash;&gt;-->
+<!--    <template x-for="c in colors">-->
+<!--       <div style="width: 40px; height: 40px; display: inline-block" :style="{backgroundColor: c}"></div>-->
+<!--    </template>-->
+<!--</div>-->
+
+<!-- x-on -->
+<!--<div x-data @scroll.window="console.log('scrolled')">-->
+<!--    <button x-on:click="console.log('Clicked 1', $event)">Clicked 1</button>-->
+<!--    &lt;!&ndash; shorthand syntax  @keyup === x-on:keyup &ndash;&gt;-->
+<!--    <button @click="console.log('Clicked 1')">Clicked 1</button>-->
+
+<!--    <input type="text" style="display: block"-->
+<!--           @keyup.debounce="console.log('keyup', $event.target.value)"s-->
+<!--           @keyup.enter="console.log('Enter pressed')">-->
+<!--    &lt;!&ndash; shorthand syntax  @keyup === x-on:keyup &ndash;&gt;-->
+<!--    <input type="text"-->
+<!--           x-on:keyup="console.log('keyup')"-->
+<!--           x-on:keyup.enter="console.log('Enter pressed')">-->
+
+<!--    <input style="display: block" type="text" @keyup.once="console.log('once', $event.target.value)">-->
+<!--    <input style="display: block" type="text" x-on:keyup.debounce.700ms="console.log('debounce')">-->
+
+<!--&lt;!&ndash;    trong Alpine.js, @ là cú pháp rút gọn của x-on. Ví dụ, @click="..." tương đương với x-on:click="...".&ndash;&gt;-->
+<!--    <dix x-data="{modal: false}">-->
+<!--        <button x-on:click="modal = true">Show modal</button>-->
+<!--        <div x-show="modal" @click.outside="modal = false">-->
+<!--            Modal Content ...-->
+<!--        </div>-->
+<!--    </dix>-->
+<!--</div>-->
+
+<!--<div x-data x-on:scroll.window="console.log('scrolled')"-->
+<!--     @my-event="console.log('Edit was triggered', $event.detail)"-->
+<!--     x-on:my-event="console.log('Edit was triggered', $event.detail)"-->
+<!--&gt;-->
+<!--    <button @click="$dispatch('my-event', 'this is detail')">Dispatch Edit</button>-->
+<!--</div>-->
+
+<!-- x-model -->
+<!--<div x-data="{keyword: 'laptop'}">-->
+<!--    <input type="text" x-model.debounce.500ms="keyword" placeholder="Search for items...">-->
+<!--    <p x-text="keyword"></p>-->
+<!--&gt;-->
+<!--</div>-->
+
+<!--
+    Challenge: Create a button and 3 inputs.
+    1st input for text. Whatever you write inside the input that should become
+    the text of the button.
+    2nd input for background color. Whatever you type color inside the input and
+    that will become button background color.
+    3rd input for button id. Whatever you type inside that will become button id.
+-->
+<!--<div x-data="{-->
+<!--    content: '',-->
+<!--    color: '',-->
+<!--    id: '',-->
+<!--}">-->
+<!--    <input style="display: block" type="text" name="" id="button1" x-model="content"-->
+<!--    placeholder="Nhap noi dung cua button">-->
+<!--    <input style="display: block" type="text" name="" id="button2" x-model="color"-->
+<!--    placeholder="Nhap mau nen cua button">-->
+<!--    <input style="display: block" type="text" name="" id="button3" x-model="id">-->
+<!--    <button-->
+<!--            x-text="content"-->
+<!--            :style="{backgroundColor: color}"-->
+<!--            :id="id"-->
+<!--    ></button>-->
+<!--</div>-->
+
+<!--x-effect-->
+<!--<div x-data="{name: 'HoangSon', message: null}">-->
+<!--    <p x-effect="message= 'Hello ' + name"></p>-->
+<!--&lt;!&ndash;   chỉ chạy 1 lần, khi click button thì nó cũng không chạy &ndash;&gt;-->
+<!--    <p x-effect="console.log('log by this effect')"></p>-->
+<!--&lt;!&ndash;    chỉ ngay lần đầu tiên, nhưng khi click button thì nó vẫn được gọi&ndash;&gt;-->
+<!--    <p x-effect="console.log('log by this effect', name)"></p>-->
+<!--    <p x-text="message"></p>-->
+<!--    <button @click="name = 'Nguyen Van An'">Change name</button>-->
+<!--</div>-->
+
+<!--x-ignore-->
+<!--<div x-data="{name : 'Nguyen Van An'}">-->
+<!--    <b x-ignore>-->
+<!--        <p x-text="name"></p>-->
+<!--    </b>-->
+<!--</div>-->
+
+<!--x-ref-->
+<!--<div x-data x-init="$refs.inputEmail.focus()">-->
+<!--    <input type="text" x-ref="inputEmail" placeholder="Enter your email">-->
+<!--    <button @click="$refs.inputEmail.style.borderColor='red'">Check</button>-->
+<!--</div>-->
+
+<!--x-cloak-->
+<!--<div x-data="dropdown">-->
+<!--    <button @click="toggle()">Open/Close</button>-->
+<!--    <div x-show="open" x-cloak>Content...</div>-->
+<!--</div>-->
+<!--<style>-->
+<!--    [x-cloak] {-->
+<!--        display: none !important;-->
+<!--    }-->
+<!--</style>-->
+<!--x-teleport-->
+<!--<div x-data>-->
+<!--    <p>Some Long Content</p>-->
+<!--    <div x-data="{modal: false}">-->
+<!--        <button @click="modal = true">Show modal</button>-->
+<!--&lt;!&ndash;       mang nội dung ở cuối body&ndash;&gt;-->
+<!--        <template x-teleport="body">-->
+<!--            <div x-show="modal">-->
+<!--                Modal Content ...-->
+<!--            </div>-->
+<!--        </template>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--Magic Properties-->
+<!--$el-->
+<div x-data x-init="console.log('Init', $el)">
+    <button @click="console.log($el)">Button</button>
+    <button @click="$el.innerHTML = 'Hello World!'">Replace me with "Hello World!"</button>
+</div>
+
+<!--$refs-->
+
+<!--$store-->
+<!--$watch-->
+<!--$dispatch-->
+</body>
+
+</html>
+<!--https://alpinejs.dev/start-here-->
+<!-- https://www.youtube.com/watch?v=5ILDMMLgX0E -->
+<!-- 1:38:23  -->
