@@ -160,16 +160,28 @@
      class="mt-5">
     <div class="relative">
         <template x-for="image in images">
-            <img x-show="activeImage === image" :src="activeImage" alt="">
+            <img
+                    x-show="activeImage === image"
+                    :src="activeImage"
+                    x-transition:enter="transform -translate-x-10 opacity-0"
+                    x-transition:enter-start="transform -translate-x-10 opacity-0"
+                    x-transition:enter-end="transform translate-x-0 opacity-100"
+                    x-transition:leave="transform translate-x-0 opacity-100"
+                    x-transition:leave-start="transform translate-x-0 opacity-100"
+                    x-transition:leave-end="transform translate-x-10 opacity-0"
+                    x-transition.duration.300ms
+                    alt="">
         </template>
         <!--        Arrow-->
-        <button @click="prev()" class="absolute left-0 top-1/2 -translate-y-1/2 text-white border-2 border-white rounded-full p-2 cursor-pointer">
+        <button @click="prev()"
+                class="absolute left-0 top-1/2 -translate-y-1/2 text-white border-2 border-white rounded-full hover:border-4 p-2 cursor-pointer transition-all">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="size-10 mr-1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5"/>
             </svg>
         </button>
-        <button @click="next()" class="absolute right-0 top-1/2 -translate-1/2 text-white border-2 border-white rounded-full p-2 cursor-pointer">
+        <button @click="next()"
+                class="absolute right-0 top-1/2 -translate-y-1/2 text-white border-2 border-white rounded-full hover:border-4 p-2 cursor-pointer transition-all">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                  stroke="currentColor" class="size-10 ml-1">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
@@ -177,17 +189,103 @@
         </button>
     </div>
     <div class="flex">
-        <div><img src="img/1.jpg" alt=""></div>
-        <div><img src="img/2.jpg" alt=""></div>
-        <div><img src="img/3.jpg" alt=""></div>
-        <div><img src="img/4.jpg" alt=""></div>
-        <div><img src="img/5.jpg" alt=""></div>
+        <template x-for="image in images">
+            <div @click="activeImage = image"
+                 class="cursor-pointer w-[80px] border border-gray-300 hover:border-purple-500 flex justify-center items-center"
+                 :class="{'border-purple-500' : activeImage === image}">
+                <img :src="image" alt="" class="object-cover">
+            </div>
+        </template>
+    </div>
+</div>
+<!-- Accordion -->
+<div class="mt-5" x-data="{
+    items: [
+        {title: 'Item 1', body: 'Body 1'},
+        {title: 'Item 2', body: 'Body 2'},
+        {title: 'Item 3', body: 'Body 3'},
+        {title: 'Item 4', body: 'Body 4'},
+    ],
+    activeItem: null,
+    selectedItem (item) {
+        if(this.activeItem === item) {
+            this.activeItem = null;
+        } else {
+            this.activeItem = item;
+        }
+    },
+}">
+    <template x-for="item in items">
+        <div>
+            <div @click="selectedItem(item)"
+                 class="flex justify-between items-center py-1 px-2 bg-gray-200 border cursor-pointer hover:text-blue-400 transition-all ">
+                 <span class="font-semibold" x-text="item.title">
+                </span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                     :class="{'rotate-90': activeItem === item}"
+                     stroke="currentColor"
+                     class="size-4 transition-all duration-200 ease-in-out">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5"/>
+                </svg>
+            </div>
+
+
+            <div x-show="activeItem === item" x-text="item.body" class="p-2 bg-white"></div>
+        </div>
+
+    </template>
+</div>
+<!-- Notification -->
+<div x-data="{
+visible : true,
+timeout: 5000,
+percent: 0,
+interval: null,
+init() {
+    setTimeout(()=>{
+        this.visible = false
+    }, this.timeout)
+    const startDate = Date.now();
+    const futureDate = Date.now() + this.timeout;
+    this.interval = setInterval(()=>{
+        const date = Date.now();
+        this.percent = (date -startDate) * 100 / (futureDate - startDate);
+        if(this.percent >=100){
+            clearInterval(this.interval);
+        };
+    },30)
+},
+close() {
+    this.visible = false;
+    this.percent = 0;
+    clearInterval(this.interval);
+    }
+}" x-show="visible" class="relative py-2 px-4 bg-green-500 text-white pb-4">
+    <div class="font-semibold mb-2">Lorem ipsum dolor sit amet.</div>
+    <div class="text-sm">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet aut beatae dolor eos esse, impedit labore
+        pariatur perspiciatis reprehenderit sint.
+    </div>
+    <button
+            @click="close"
+            class="inline-flex justify-center items-center w-[30px] h-[30px] rounded-full hover:bg-black/10 transition-colors absolute top-2 right-2">
+
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+             class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+        </svg>
+    </button>
+    <!-- Progress -->
+    <div>
+        <div class="absolute left-0 right-0 bottom-0 rounded h-[6px] bg-black/10 "
+        :style="{'width' : `${percent}%`}"></div>
     </div>
 </div>
 
 
-<!-- Accordion -->
-<!-- Notification -->
-<!-- Popover -->
+
+
 </body>
 </html>
+<!--https://www.youtube.com/watch?v=5ILDMMLgX0E&t=9387s-->
+<!--3:22:06-->
