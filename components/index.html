@@ -30,7 +30,7 @@
 
 
     </button>
-    <ul class="bg-white w-[160px] shadow-md py-1"
+    <ul class="bg-white w-[160px] shadow-md py-1 absolute z-10 rounded-md mt-1"
         x-show="open" @click.outside="open = false" x-transition>
         <li><a class="flex items-center py-1 px-2 hover:bg-gray-200" href="#">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -278,12 +278,40 @@ close() {
     <!-- Progress -->
     <div>
         <div class="absolute left-0 right-0 bottom-0 rounded h-[6px] bg-black/10 "
-        :style="{'width' : `${percent}%`}"></div>
+             :style="{'width' : `${percent}%`}"></div>
     </div>
 </div>
 
+<!--    Popover-->
+<div x-data="{
+        show: false,
+        title: 'Test Popover',
+        message: 'Test <b>Popover</b> Message',
+        showPopover() {
+        console.log(this.$refs.popover, this.$refs.button);
+            this.show = !this.show;
+        }
+   }" class="relative flex justify-center items-center mt-5">
+    <button
+            x-ref="button"
+            @click="showPopover()"
+            class="inline-flex items-center py-2 px-6 bg-purple-600 hover:bg-opacity-95 text-white rounded-md shadow">
+        Popover
+    </button>
+    <div x-ref="popover" x-show="show" x-transition class="absolute bottom-[100%] shadow-lg bg-white w-[200px] rounded mb-2">
+        <!-- Header -->
+        <div class="flex justify-between items-center font-semibold py-1 px-2">
+            <span x-text="title"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                 stroke="currentColor" class="size-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+            </svg>
 
-
+        </div>
+        <!-- Body -->
+        <div x-html="message" class="p-3 text-sm"></div>
+    </div>
+</div>
 
 </body>
 </html>

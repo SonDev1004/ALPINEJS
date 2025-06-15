@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" xmlns:x-mask="http://www.w3.org/1999/xhtml" xmlns:x-intersect="http://www.w3.org/1999/xhtml"
+      xmlns:x-sort="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Alpine.js Plugins</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Alpine Plugins -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/mask@3.10.2/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.10.2/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.10.2/dist/cdn.min.js"></script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs-sort/3.13.8/cdn.js"-->
+<!--            integrity="sha512-IN0DA/eYJR5qPaq+Xw9yCevIYCRPctBC3EbbASeLy17c2wPyeIiA9wd4RgTTFeoECtHGN66RnMTZ3UZUHwSvLw=="-->
+<!--            crossorigin="anonymous" referrerpolicy="no-referrer">-->
+
+<!--    </script>-->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/sort@3.13.8/dist/cdn.min.js"></script>
+
+    <!-- Alpine Core -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.10.2/dist/cdn.min.js"></script>
+</head>
+<body>
+<h2>Mask Plugin</h2>
+<!-- Marks -->
+<!--https://alpinejs.dev/plugins/mask-->
+<!--Mask plugin của Alpine.js chủ yếu dùng để định dạng (mask) dữ liệu nhập vào trong các input, ví dụ như ngày tháng, số thẻ, số tiền, số điện thoại, v.v. Ngoài ra, nó còn hỗ trợ mask động (dynamic mask) và tuỳ biến định dạng theo logic. Tóm lại, chức năng chính của plugin này là kiểm soát và định dạng dữ liệu nhập vào các trường input.-->
+<div x-data>
+    <input type="text" x-mask="99/99/9999" placeholder="MM/DD/YYYY"/>
+    <input x-mask:dynamic="
+            $input.startsWith('34') || $input.startsWith('37')
+                ? '9999 999999 99999'
+                : '9999 9999 9999 9999'
+"/>
+    <!--        Money inputs -->
+    <input x-mask:dynamic="$money($input, ',')"/>
+</div>
+<hr>
+<!--Intersect-->
+<div style="height:100vh; width:100%; background:red;"></div>
+<div
+        x-data="{show: false}"
+        x-intersect="show= true, console.log('Show')"
+        x-intersect:leave="show = false, console.log('Hide')">
+    <div x-show="show" x-transition x-transition.duration.10000ms>
+        I am visible when you scroll down to me!
+    </div>
+</div>
+<div x-data="{dataSrc : '1.jpg', src : null}" x-intersect="src = dataSrc">
+    <img :src="src" alt="" x-show="src" x-transition/>
+</div>
+<!--Persist-->
+<!-- Default storage: localStorage -->
+<div x-data="{ count: $persist(0).as('custom-count') }">
+    <button x-on:click="count++">Increment localStorage</button>
+    <span x-text="count"></span>
+</div>
+<!-- Custom storage: sesionStorage -->
+<div x-data="{ count: $persist(0).using(sessionStorage) }">
+    <button x-on:click="count++">Increment sessionStorage</button>
+
+    <span x-text="count"></span>
+</div>
+<!-- Custom storage: Cookie -->
+<div x-data="{ count: $persist(0).using(cookieStorage) }">
+    <button x-on:click="count++">Increment Cookie</button>
+
+    <span x-text="count"></span>
+</div>
+<!--Sort-->
+
+<ul x-sort="alert($item + ' - ' + $position)">
+    <li x-sort:item="1" draggable="true" class="cursor-pointer">foo</li>
+    <li x-sort:item="2" draggable="true" class="cursor-pointer">bar</li>
+    <li x-sort:item="3" draggable="true" class="cursor-pointer">baz</li>
+</ul>
+<div class="grid grid-cols-2 gap-4 mt-5">
+    <ul x-sort x-sort:group="todos">
+        <li x-sort:item="1" draggable="true" class="cursor-pointer">foo</li>
+        <li x-sort:item="2" draggable="true" class="cursor-pointer">bar</li>
+        <li x-sort:item="3" draggable="true" class="cursor-pointer">baz</li>
+    </ul>
+
+    <ol x-sort.ghost x-sort:group="handlers">
+        <li x-sort:item="4" draggable="true" class="cursor-pointer">foo</li>
+        <li x-sort:item="5" draggable="true" class="cursor-pointer">bar</li>
+        <li x-sort:item="6" draggable="true" class="cursor-pointer">baz</li>
+    </ol>
+</div>
+<!--Focus-->
+
+<!--Collapse-->
+
+<!--Morph-->
+</body>
+<script>
+    //khai bao function cookieStorage pham vi toan cuc
+    window.cookieStorage = {
+        getItem(key) {
+            let cookies = document.cookie.split(";");
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i].split("=");
+                if (key == cookie[0].trim()) {
+                    return decodeURIComponent(cookie[1]);
+                }
+            }
+            return null;
+        },
+        setItem(key, value) {
+            document.cookie = key + ' = ' + encodeURIComponent(value)
+        }
+    }
+</script>
+</html>
